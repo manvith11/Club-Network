@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Department entries -->
+    <string-array name="department_entries">
+        <item>CSE</item>
+        <item>ECE</item>
+        <item>IT</item>
+        <!-- Add more departments as needed -->
+    </string-array>
+
+    <string-array name="class_entries">
+        <item>A</item>
+        <item>B</item>
+
+        <!-- Add more departments as needed -->
+    </string-array>
+
+    <!-- Year entries -->
+    <string-array name="year_entries">
+        <item>I</item>
+        <item>II</item>
+        <item>III</item>
+        <item>IV</item>
+        <!-- Add more years as needed -->
+    </string-array>
+</resources>

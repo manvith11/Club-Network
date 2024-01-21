@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Club Network</string>
+    <string name="Sign_Up">Sign Up</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="achievements_title">Achievements</string>
+    <string name="close_button_description">Close</string>
+</resources>

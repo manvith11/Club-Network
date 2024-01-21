@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "56694875170",
+    "firebase_url": "https://club-network-4defe-default-rtdb.firebaseio.com",
+    "project_id": "club-network-4defe",
+    "storage_bucket": "club-network-4defe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:56694875170:android:d843c73f044f6cc7ee567b",
+        "android_client_info": {
+          "package_name": "com.example.clubnetwork"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3Q7iRIu5oMSf_k-GfRGZMml6YMiYGfuA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
