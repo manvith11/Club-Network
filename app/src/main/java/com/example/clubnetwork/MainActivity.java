@@ -31,16 +31,15 @@ public class MainActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.start_login_button);
         SignupButton = findViewById(R.id.start_signup_button);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Hi");
-        databaseReference.setValue("Hello thejas");
+
 
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
 

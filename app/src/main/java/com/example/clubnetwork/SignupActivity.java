@@ -1,5 +1,6 @@
 package com.example.clubnetwork;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,6 +11,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -40,22 +49,55 @@ public class SignupActivity extends AppCompatActivity {
                 String pass = signupPassword.getText().toString();
 
 
-                if(name.isEmpty() || email.isEmpty() || reg_no.isEmpty() || pass.isEmpty())
-                {
+                if (name.isEmpty() || email.isEmpty() || reg_no.isEmpty() || pass.isEmpty()) {
                     Toast.makeText(SignupActivity.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Intent intent=new Intent(SignupActivity.this, LoginActivity.class);
-                    intent.putExtra("name",name);
-                    intent.putExtra("email",email);
-                    intent.putExtra("registration_number",reg_no);
-                    intent.putExtra("password",pass);
-                    startActivity(intent);
+                } else {
+                    // Create a reference to the user in the Firebase database
+                    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(reg_no);
 
-                    Toast.makeText(SignupActivity.this, "User registered successfully", Toast.LENGTH_SHORT).show();
-                }
+                    // Check if the user already exists
+                    userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
 
-            }});
+                                Toast.makeText(SignupActivity.this, "User Already Exists", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // User does not exist, create a new user
+                                UserProfile newUser = new UserProfile(name, email, reg_no, pass);
+
+                                // Set the value in the database
+                                userRef.setValue(newUser)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                // Registration successful
+                                                Toast.makeText(SignupActivity.this, "User registered successfully", Toast.LENGTH_SHORT).show();
+
+                                                // Redirect to the login activity
+                                                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                                                startActivity(intent);
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // Registration failed
+                                                Toast.makeText(SignupActivity.this, "Registration failed. Please try again.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            // Handle errors if needed
+                            Toast.makeText(SignupActivity.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
 
         loginRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override

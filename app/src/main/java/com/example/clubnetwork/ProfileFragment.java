@@ -70,9 +70,7 @@ public class ProfileFragment extends Fragment implements OnDetailsUpdateListener
         UserProfile userProfile = (UserProfile) intent.getSerializableExtra("userProfile");
 
         // Now you can use the userProfile object in this fragment
-        if (userProfile != null) {
-            updateDetails(userProfile.getName(), userProfile.getSelectedDepartment(), userProfile.getSelectedYear());
-        }
+
 
         myAchievementsButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,57 +1,55 @@
 package com.example.clubnetwork;
 
-import java.io.Serializable;
-
-public class UserProfile implements Serializable {
+public class UserProfile {
     private String name;
-    private String registerNumber;
-    private String selectedClass;
-    private String selectedDepartment;
-    private String selectedYear;
+    private String email;
+    private String regNo;
+    private String password;
 
-    public UserProfile(String name, String registerNumber, String selectedClass, String selectedDepartment, String selectedYear) {
-        // Initialize fields...
-        this.name = (name != null) ? name : "";
-        this.registerNumber = (registerNumber != null) ? registerNumber : "";
-        this.selectedClass = (selectedClass != null) ? selectedClass : ""; // Change "DefaultClass" to your actual default value
-        this.selectedDepartment = (selectedDepartment != null) ? selectedDepartment : ""; // Change "DefaultDepartment" to your actual default value
-        this.selectedYear = (selectedYear != null) ? selectedYear : ""; // Change "DefaultYear" to your actual default value
-
+    // Required default constructor for Firebase
+    public UserProfile() {
     }
 
+    public UserProfile(String name, String email, String regNo, String password) {
+        this.name = name;
+        this.email = email;
+        this.regNo = regNo;
+        this.password = password;
+    }
+
+    // Add getter and setter methods here
+    // Getter methods
     public String getName() {
         return name;
     }
 
-    public String getRegisterNumber() {
-        return registerNumber;
+    public String getEmail() {
+        return email;
     }
 
-    public String getSelectedClass() {
-        return selectedClass;
+    public String getRegNo() {
+        return regNo;
     }
 
-    public String getSelectedDepartment() {
-        return selectedDepartment;
+    public String getPassword() {
+        return password;
     }
 
-    public String getSelectedYear() {
-        return selectedYear;
+    // Setter methods
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String setClass(String a) {
-        this.selectedClass=a;
-        return selectedClass;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String setDepartment(String cse) {
-        this.selectedDepartment=cse;
-        return selectedDepartment;
+    public void setRegNo(String regNo) {
+        this.regNo = regNo;
     }
 
-    public String setYear(String i) {
-
-        this.selectedYear=i;
-        return selectedYear;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
+

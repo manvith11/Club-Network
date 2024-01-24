@@ -39,8 +39,8 @@ public class AccountSettings extends AppCompatActivity {
             UserProfile userProfile = (UserProfile) intent.getSerializableExtra("userProfile");
 
             // Set data to views in AccountSettings activity
-            editTextName.setText(userProfile.getName());
-            editTextRegisterNumber.setText(userProfile.getRegisterNumber());
+
+
             // Set data to other views (spinners) accordingly
         }
 
@@ -48,26 +48,10 @@ public class AccountSettings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Create a UserProfile object with the entered data
-                UserProfile userProfile = new UserProfile(
-                        editTextName.getText().toString(),
-                        editTextRegisterNumber.getText().toString(),
-                        spinnerClass.getSelectedItem().toString(),
-                        spinnerDepartment.getSelectedItem().toString(),
-                        spinnerYear.getSelectedItem().toString()
-                );
-                if (spinnerClass.getSelectedItem() == null) {
-                    userProfile.setClass("A");  // Set your default class value
-                }
-                if (spinnerDepartment.getSelectedItem() == null) {
-                    userProfile.setDepartment("CSE");  // Set your default department value
-                }
-                if (spinnerYear.getSelectedItem() == null) {
-                    userProfile.setYear("I");  // Set your default year value
-                }
+
 
                 // Create an Intent to pass data to ProfileFragment
                 Intent intent = new Intent(AccountSettings.this, StartActivity.class);
-                intent.putExtra("userProfile", (Serializable) userProfile);
                 // Start the ProfileFragment
                 startActivity(intent);
             }
