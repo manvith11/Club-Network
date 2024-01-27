@@ -1,6 +1,6 @@
 package com.example.clubnetwork;
-
-public class UserProfile {
+import java.io.Serializable;
+public class UserProfile implements Serializable {
     private String name;
     private String email;
     private String regNo;
@@ -14,11 +14,14 @@ public class UserProfile {
     public UserProfile() {
     }
 
-    public UserProfile(String name, String email, String regNo, String password) {
+    public UserProfile(String name, String email, String regNo, String password,String classs,String year) {
         this.name = name;
         this.email = email;
         this.regNo = regNo;
         this.password = password;
+        this.classs = classs;
+        this.year = year;
+
     }
 
     // Add getter and setter methods here

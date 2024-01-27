@@ -30,9 +30,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Intent intent = getIntent();
-        String registration_number = intent.getStringExtra("registration_number");
-        String Pass = intent.getStringExtra("password");
 
 
         loginReg_no = findViewById(R.id.login_regno);
@@ -44,41 +41,34 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String reg_no = loginReg_no.getText().toString().trim();
                 String pass = loginPassword.getText().toString().trim();
+
                 if (!TextUtils.isEmpty(reg_no) && !TextUtils.isEmpty(pass)) {
-                    // Construct the path in the Firebase database
                     String path = "users/" + reg_no;
                     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(path);
+
                     userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
                                 // User exists, check the password
                                 String storedPassword = dataSnapshot.child("password").getValue(String.class);
+                                System.out.println(storedPassword);
+
                                 if (pass.equals(storedPassword)) {
-                                    DatabaseReference userDataRef = userRef.child(path);
-                                    userDataRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            if (dataSnapshot.exists()) {
-                                                UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
-                                                Intent intent = new Intent(LoginActivity.this, StartActivity.class);
-                                                intent.putExtra("user_profile", (Serializable) userProfile);
-                                                startActivity(intent);
-                                            } else {
-                                                // Handle the case where user details are not found
-                                            }
-                                        }
+                                    // Password is correct, get the user profile
+                                    UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
 
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                                            // Handle errors if needed
-                                            Toast.makeText(LoginActivity.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-
+                                    // Check if the user profile is not null
+                                    if (userProfile != null) {
+                                        Intent intent = new Intent(LoginActivity.this, StartActivity.class);
+                                        intent.putExtra("user_profile", (Serializable) userProfile);
+                                        startActivity(intent);
+                                    } else {
+                                        // Handle the case where user details are not found
+                                        Toast.makeText(LoginActivity.this, "User profile not found", Toast.LENGTH_SHORT).show();
+                                    }
                                 } else {
                                     // Wrong password
                                     Toast.makeText(LoginActivity.this, "Wrong credentials", Toast.LENGTH_SHORT).show();
@@ -88,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(LoginActivity.this, "User does not exist", Toast.LENGTH_SHORT).show();
                             }
                         }
+
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                             // Handle errors if needed
@@ -100,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
         signupRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,20 +1,28 @@
 package com.example.clubnetwork;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.*;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class AccountSettings extends AppCompatActivity {
@@ -26,7 +34,7 @@ public class AccountSettings extends AppCompatActivity {
     private ImageView checkMarkImageView;
 
 
-
+    Intent intent = getIntent();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,23 +45,15 @@ public class AccountSettings extends AppCompatActivity {
         spinnerYear = findViewById(R.id.spinnerYear);
         checkMarkImageView = findViewById(R.id.checkMark);
 
-        Intent intent = getIntent();
+        intent = getIntent();
         if (intent.hasExtra("user_profile")) {
             UserProfile userProfile = (UserProfile) intent.getSerializableExtra("user_profile");
-
             // Set data to views in AccountSettings activity
             if (userProfile != null) {
                 editTextName.setText(userProfile.getName());
-                editTextRegisterNumber.setText(userProfile.getRegNo());
-                // Assuming you have setters for the following fields in your UserProfile class
-                // You can set these data accordingly
-
+                editTextRegisterNumber.setText(userProfile.getEmail());
                 setSpinnerSelection(spinnerClass, userProfile.getClasss());
                 setSpinnerSelection(spinnerYear, userProfile.getyear());
-
-                // spinnerClass.setSelection(...);
-                // spinnerDepartment.setSelection(...);
-                // spinnerYear.setSelection(...);
             }
         }
 
@@ -65,55 +65,75 @@ public class AccountSettings extends AppCompatActivity {
         yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerYear.setAdapter(yearAdapter);
 
-        if (intent.hasExtra("user_profile")) {
-            UserProfile userProfile = (UserProfile) intent.getSerializableExtra("user_profile");
-
-            // Set data to views in AccountSettings activity
-            if (userProfile != null) {
-                editTextName.setText(userProfile.getName());
-                editTextRegisterNumber.setText(userProfile.getRegNo());
-
-                // Set selected items in spinners
-                setSpinnerSelection(spinnerClass, userProfile.getClasss());
-                setSpinnerSelection(spinnerYear, userProfile.getyear());
-            }
-        }
-
         checkMarkImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = null;
                 // Create a UserProfile object with the entered data
                 UserProfile updatedUserProfile = new UserProfile();
                 updatedUserProfile.setName(editTextName.getText().toString());
-                updatedUserProfile.setRegNo(editTextRegisterNumber.getText().toString());
-
+                updatedUserProfile.setEmail(editTextRegisterNumber.getText().toString());
                 updatedUserProfile.setClasss(spinnerClass.getSelectedItem().toString());
                 updatedUserProfile.setYear(spinnerYear.getSelectedItem().toString());
 
+                // Update data in Firebase
                 updateDataInFirebase(updatedUserProfile);
-
-
-
-                // Create an Intent to pass data to ProfileFragment
-                fragment = new ProfileFragment();
-                UserProfile userProfile = getUserProfileFromIntent();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("user_profile", (Serializable) userProfile);
-                fragment.setArguments(bundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.account_settings_container,fragment).commit();
-
-
             }
         });
     }
 
     private void updateDataInFirebase(UserProfile updatedUserProfile) {
-        // Update data in Firebase
-        String path = "users/" + updatedUserProfile.getRegNo();
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(path);
-        userRef.setValue(updatedUserProfile);
+        // Check if any required fields are empty or null
+        if (TextUtils.isEmpty(updatedUserProfile.getName()) ||
+                TextUtils.isEmpty(updatedUserProfile.getClasss()) ||
+                TextUtils.isEmpty(updatedUserProfile.getyear())) {
+            // Handle the case where required fields are empty
+            Toast.makeText(this, "Please fill all required fields", Toast.LENGTH_SHORT).show();
+        } else {
+            UserProfile userProfile = getUserProfileFromIntent();
+            // Update data in Firebase
+            String path = "users/" + userProfile.getRegNo();
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(path);
+
+            // Create a map to update only specific fields
+            Map<String, Object> updateFields = new HashMap<>();
+            updateFields.put("name", updatedUserProfile.getName());
+            updateFields.put("classs", updatedUserProfile.getClasss());
+            updateFields.put("email", updatedUserProfile.getEmail());
+            updateFields.put("year", updatedUserProfile.getyear());
+
+            // Update only specific fields in Firebase
+            userRef.updateChildren(updateFields)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Handle success if needed
+                            Toast.makeText(AccountSettings.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                            // You may want to navigate to a different activity or fragment after successful update
+                            navigateToProfileFragment();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Handle failure if needed
+                            Toast.makeText(AccountSettings.this, "Failed to update profile. Please try again.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
+    private void navigateToProfileFragment() {
+        // Create a FragmentTransaction
+        Fragment fragment;
+        // Replace the current fragment with ProfileFragment
+        fragment = new ProfileFragment();
+        UserProfile userProfile = getUserProfileFromIntent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user_profile", (Serializable) userProfile);
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.account_settings_container,fragment).commit();
+    }
+
+
 
     private void setSpinnerSelection(Spinner spinner, String value) {
         if (value != null) {
@@ -125,7 +145,15 @@ public class AccountSettings extends AppCompatActivity {
 
     private UserProfile getUserProfileFromIntent() {
         // Get UserProfile from intent
-        return (UserProfile) getIntent().getSerializableExtra("user_profile");
+        Intent intent = getIntent();
+
+        if (intent.hasExtra("user_profile")) {
+            return (UserProfile) intent.getSerializableExtra("user_profile");
+        } else {
+            // Handle the case where the UserProfile is not present in the intent
+            return new UserProfile();  // Or return null, depending on your design
+        }
     }
+
 
 }
