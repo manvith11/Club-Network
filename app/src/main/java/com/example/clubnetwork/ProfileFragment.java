@@ -71,7 +71,6 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("ButtonClick", "Button clicked");
-
                 Intent intent = new Intent(getActivity(), AccountSettings.class);
                 intent.putExtra("user_profile", (Serializable) userProfile);
 

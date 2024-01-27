@@ -68,12 +68,14 @@ public class AccountSettings extends AppCompatActivity {
         checkMarkImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UserProfile userProfile = getUserProfileFromIntent();
                 // Create a UserProfile object with the entered data
                 UserProfile updatedUserProfile = new UserProfile();
                 updatedUserProfile.setName(editTextName.getText().toString());
                 updatedUserProfile.setEmail(editTextRegisterNumber.getText().toString());
                 updatedUserProfile.setClasss(spinnerClass.getSelectedItem().toString());
                 updatedUserProfile.setYear(spinnerYear.getSelectedItem().toString());
+                updatedUserProfile.setRegNo(userProfile.getRegNo());
 
                 // Update data in Firebase
                 updateDataInFirebase(updatedUserProfile);
@@ -109,7 +111,7 @@ public class AccountSettings extends AppCompatActivity {
                             // Handle success if needed
                             Toast.makeText(AccountSettings.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
                             // You may want to navigate to a different activity or fragment after successful update
-                            navigateToProfileFragment();
+                            navigateToProfileFragment(updatedUserProfile);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -121,16 +123,14 @@ public class AccountSettings extends AppCompatActivity {
                     });
         }
     }
-    private void navigateToProfileFragment() {
-        // Create a FragmentTransaction
-        Fragment fragment;
-        // Replace the current fragment with ProfileFragment
-        fragment = new ProfileFragment();
-        UserProfile userProfile = getUserProfileFromIntent();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("user_profile", (Serializable) userProfile);
-        fragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.account_settings_container,fragment).commit();
+    private void navigateToProfileFragment(UserProfile updatedUserProfile) {
+        Intent intent = new Intent(this, StartActivity.class);
+
+        // Pass the updated UserProfile to the ProfileActivity
+        intent.putExtra("user_profile", updatedUserProfile);
+
+        // Start the activity
+        startActivity(intent);
     }
 
 
