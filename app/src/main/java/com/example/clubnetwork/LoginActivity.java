@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
+
 public class LoginActivity extends AppCompatActivity {
 
     EditText loginReg_no,loginPassword;
@@ -56,9 +58,27 @@ public class LoginActivity extends AppCompatActivity {
                                 // User exists, check the password
                                 String storedPassword = dataSnapshot.child("password").getValue(String.class);
                                 if (pass.equals(storedPassword)) {
-                                    // Passwords match, login successful
-                                    Intent intent = new Intent(LoginActivity.this, StartActivity.class);
-                                    startActivity(intent);
+                                    DatabaseReference userDataRef = userRef.child(path);
+                                    userDataRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot.exists()) {
+                                                UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
+                                                Intent intent = new Intent(LoginActivity.this, StartActivity.class);
+                                                intent.putExtra("user_profile", (Serializable) userProfile);
+                                                startActivity(intent);
+                                            } else {
+                                                // Handle the case where user details are not found
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                            // Handle errors if needed
+                                            Toast.makeText(LoginActivity.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
                                 } else {
                                     // Wrong password
                                     Toast.makeText(LoginActivity.this, "Wrong credentials", Toast.LENGTH_SHORT).show();

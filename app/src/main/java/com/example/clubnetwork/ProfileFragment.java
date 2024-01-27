@@ -12,11 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ProfileFragment extends Fragment implements OnDetailsUpdateListener {
 
     private TextView Name;
@@ -67,9 +63,13 @@ public class ProfileFragment extends Fragment implements OnDetailsUpdateListener
         View accountSettingsButton = view.findViewById(R.id.button2);
 
         Intent intent = getActivity().getIntent();
-        UserProfile userProfile = (UserProfile) intent.getSerializableExtra("userProfile");
-
-        // Now you can use the userProfile object in this fragment
+        UserProfile userProfile = (UserProfile) intent.getSerializableExtra("user_profile");
+        if (userProfile != null) {
+            // Set the details in the TextViews
+            Name.setText("" + userProfile.getName());
+            departmentTextView.setText("" + userProfile.getRegNo());
+            yearTextView.setText("" + userProfile.getEmail());
+        }
 
 
         myAchievementsButton.setOnClickListener(new View.OnClickListener() {

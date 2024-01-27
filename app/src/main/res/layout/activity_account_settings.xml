@@ -5,14 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AccountSettings">
+    tools:context=".AccountSettings"
+    android:id="@+id/account_settings_container">
 
     <!-- Close button at the top left -->
 
     <!-- Check mark icon at the top right -->
 
     <!-- Name EditText -->
-
     <ImageView
         android:id="@+id/closeButton"
         android:layout_width="wrap_content"
@@ -23,19 +23,17 @@
         android:src="@drawable/ic_close"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/checkMark"
         android:layout_width="55dp"
         android:layout_height="56dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
         android:contentDescription="Check Mark"
         android:src="@drawable/check"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <EditText
         android:id="@+id/editTextName"
         android:layout_width="0dp"
@@ -48,61 +46,49 @@
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
         android:inputType="text"/>
-
     <!-- Register Number EditText -->
     <EditText
         android:id="@+id/editTextRegisterNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="16dp"
         android:hint="Register Number"
-        app:layout_constraintStart_toStartOf="parent"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextName"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:inputType="text"/>
-
-    <Spinner
-        android:id="@+id/spinnerDepartment"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinnerClass"
-        android:entries="@array/class_entries"/>
-
+        app:layout_constraintTop_toBottomOf="@id/editTextName" />
+    <!-- Department Spinner -->
+    <!-- Specify an array resource for department entries -->
+    <!-- Year Spinner -->
     <Spinner
         android:id="@+id/spinnerClass"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:entries="@array/department_entries"
+        app:layout_constraintBottom_toBottomOf="@+id/cardViewUpload"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextRegisterNumber"
-        android:entries="@array/department_entries"/>
-
-    <!-- Department Spinner -->
-    <!-- Specify an array resource for department entries -->
-
-    <!-- Year Spinner -->
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextName"
+        app:layout_constraintVertical_bias="0.218" />
     <Spinner
         android:id="@+id/spinnerYear"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:entries="@array/year_entries"
+        app:layout_constraintBottom_toTopOf="@+id/cardViewUpload"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinnerDepartment"
-        android:entries="@array/year_entries"/>
-
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerClass"
+        app:layout_constraintVertical_bias="0.075" />
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewUpload"
         android:layout_width="0dp"
@@ -115,14 +101,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp">
-
         <Button
             android:id="@+id/btnUploadProfileImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Upload Profile Image"
             android:padding="16dp"/>
-
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

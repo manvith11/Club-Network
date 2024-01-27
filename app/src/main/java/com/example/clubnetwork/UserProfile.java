@@ -5,6 +5,10 @@ public class UserProfile {
     private String email;
     private String regNo;
     private String password;
+    private  String classs;
+    private  String year;
+
+
 
     // Required default constructor for Firebase
     public UserProfile() {
@@ -23,6 +27,15 @@ public class UserProfile {
         return name;
     }
 
+    public String getClasss() {
+        return classs;
+    }
+
+    public String getyear() {
+        return year;
+    }
+
+
     public String getEmail() {
         return email;
     }
@@ -38,6 +51,14 @@ public class UserProfile {
     // Setter methods
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setClasss(String classs) {
+        this.classs = classs;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public void setEmail(String email) {

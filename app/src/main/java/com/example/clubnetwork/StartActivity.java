@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.io.Serializable;
+
 public class StartActivity extends AppCompatActivity{
 
     BottomNavigationView bottomNavigationView;
@@ -24,6 +26,8 @@ public class StartActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
+        UserProfile userProfile = (UserProfile) getIntent().getSerializableExtra("user_profile");
 
         bottomNavigationView = findViewById(R.id.bottomnavigation);
         getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new HomeFragment()).commit();
@@ -45,14 +49,24 @@ public class StartActivity extends AppCompatActivity{
                         break;
                     case R.id.nav_profile:
                         fragment = new ProfileFragment();
+                        UserProfile userProfile = getUserProfileFromIntent();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("user_profile", (Serializable) userProfile);
+                        fragment.setArguments(bundle);
+
                         break;
                 }
-
                 getSupportFragmentManager().beginTransaction().replace(R.id.main_container,fragment).commit();
                 return true;
             }
         });
 
     }
+
+    private UserProfile getUserProfileFromIntent() {
+        // Get UserProfile from intent
+        return (UserProfile) getIntent().getSerializableExtra("user_profile");
+    }
+
 
 }
