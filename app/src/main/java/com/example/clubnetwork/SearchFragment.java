@@ -1,5 +1,6 @@
 package com.example.clubnetwork;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,7 +61,31 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
+
+        // Find the ImageView in your layout
+        ImageView imageView1 = view.findViewById(R.id.imageView1);
+        ImageView imageView2 = view.findViewById(R.id.imageView2);
+
+        // Set OnClickListener for the ImageView
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // When the ImageView is clicked, start the cmc activity
+                Intent intent = new Intent(getActivity(), cmc.class);
+                startActivity(intent);
+            }
+        });
+
+        imageView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // When the ImageView is clicked, start the cmc activity
+                Intent intent = new Intent(getActivity(), literary.class);
+                startActivity(intent);
+            }
+        });
+
+        return view;
     }
 }
