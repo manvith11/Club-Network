@@ -15,6 +15,9 @@
         android:theme="@style/Theme.ClubNetwork"
         tools:targetApi="31">
         <activity
+            android:name=".ai"
+            android:exported="false" />
+        <activity
             android:name=".literary"
             android:exported="false" />
         <activity

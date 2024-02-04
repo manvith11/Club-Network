@@ -5,4 +5,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="achievements_title">Achievements</string>
     <string name="close_button_description">Close</string>
+    <string name="join_button">Join</string>
+    <string name="leave_button">Leave</string>
+    <string name="event_details" />
 </resources>

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        tools:context=".cmc">
+        tools:context=".ai">
 
         <!-- Event Name Heading -->
 
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:fontFamily="sans-serif-condensed"
-            android:text="Computer and Multimedia Club presents..."
+            android:text="AI Club presents..."
             android:textColor="@android:color/black"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -55,7 +55,7 @@
                     android:layout_below="@id/facultyImageView"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:text="Sheeba"
+                    android:text="Sathiyamurthy"
                     android:layout_marginTop="8dp"/>
 
                 <TextView

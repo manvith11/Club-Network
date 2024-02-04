@@ -37,20 +37,22 @@ public class StartActivity extends AppCompatActivity{
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment = null;
+                UserProfile userProfile = getUserProfileFromIntent();
+                Bundle bundle = new Bundle();
                 switch (item.getItemId()){
                     case R.id.nav_home:
                         fragment = new HomeFragment();
                         break;
                     case R.id.nav_search:
                         fragment = new SearchFragment();
+                        bundle.putSerializable("user_profile", (Serializable) userProfile);
+                        fragment.setArguments(bundle);
                         break;
                     case R.id.nav_notify:
                         fragment = new NotificationFragment();
                         break;
                     case R.id.nav_profile:
                         fragment = new ProfileFragment();
-                        UserProfile userProfile = getUserProfileFromIntent();
-                        Bundle bundle = new Bundle();
                         bundle.putSerializable("user_profile", (Serializable) userProfile);
                         fragment.setArguments(bundle);
 

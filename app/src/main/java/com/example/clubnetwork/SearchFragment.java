@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import java.io.Serializable;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SearchFragment#newInstance} factory method to
@@ -66,13 +68,25 @@ public class SearchFragment extends Fragment {
         // Find the ImageView in your layout
         ImageView imageView1 = view.findViewById(R.id.imageView1);
         ImageView imageView2 = view.findViewById(R.id.imageView2);
-
+        ImageView imageView3 = view.findViewById(R.id.imageView3);
+        Intent intent = getActivity().getIntent();
+        UserProfile userProfile = (UserProfile) intent.getSerializableExtra("user_profile");
         // Set OnClickListener for the ImageView
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // When the ImageView is clicked, start the cmc activity
                 Intent intent = new Intent(getActivity(), cmc.class);
+                intent.putExtra("user_profile", (Serializable) userProfile);
+                startActivity(intent);
+            }
+        });
+        imageView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // When the ImageView is clicked, start the cmc activity
+                Intent intent = new Intent(getActivity(), ai.class);
+                intent.putExtra("user_profile", (Serializable) userProfile);
                 startActivity(intent);
             }
         });
@@ -82,6 +96,7 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 // When the ImageView is clicked, start the cmc activity
                 Intent intent = new Intent(getActivity(), literary.class);
+                intent.putExtra("user_profile", (Serializable) userProfile);
                 startActivity(intent);
             }
         });

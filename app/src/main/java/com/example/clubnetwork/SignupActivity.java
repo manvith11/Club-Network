@@ -49,6 +49,9 @@ public class SignupActivity extends AppCompatActivity {
                 String pass = signupPassword.getText().toString();
                 String classs="null";
                 String year="null";
+                String literary = "left";
+                String cmc = "left";
+                String ai="left";
 
 
                 if (name.isEmpty() || email.isEmpty() || reg_no.isEmpty() || pass.isEmpty()) {
@@ -66,7 +69,7 @@ public class SignupActivity extends AppCompatActivity {
                                 Toast.makeText(SignupActivity.this, "User Already Exists", Toast.LENGTH_SHORT).show();
                             } else {
                                 // User does not exist, create a new user
-                                UserProfile newUser = new UserProfile(name, email, reg_no, pass,classs,year);
+                                UserProfile newUser = new UserProfile(name, email, reg_no, pass,classs,year,literary,cmc,ai);
 
                                 // Set the value in the database
                                 userRef.setValue(newUser)

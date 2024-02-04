@@ -13,21 +13,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class literary extends AppCompatActivity {
+public class ai extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_literary);
+        setContentView(R.layout.activity_ai);
 
         // Initialize Firebase Database
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         final Button joinLeaveButton = findViewById(R.id.joinLeaveButton);
         UserProfile userProfile = getUserProfileFromIntent();
-        final String path = "users/" + userProfile.getRegNo() + "/literary";
+        final String path = "users/" + userProfile.getRegNo() + "/ai";
 
         // Fetch the current status from Firebase and set the button text accordingly
         mDatabase.child(path).addListenerForSingleValueEvent(new ValueEventListener() {
