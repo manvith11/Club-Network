@@ -34,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
         loginReg_no = findViewById(R.id.login_regno);
         loginPassword = findViewById(R.id.login_password);
+
         signupRedirectText = findViewById(R.id.SignUpRedirectText);
         loginButton = findViewById(R.id.login_button);
 
@@ -62,9 +63,17 @@ public class LoginActivity extends AppCompatActivity {
 
                                     // Check if the user profile is not null
                                     if (userProfile != null) {
-                                        Intent intent = new Intent(LoginActivity.this, StartActivity.class);
-                                        intent.putExtra("user_profile", (Serializable) userProfile);
-                                        startActivity(intent);
+
+                                        if(userProfile.getRegNo().equals("admin")&&userProfile.getPassword().equals("admin")){
+                                            Intent intent = new Intent(LoginActivity.this, AdminControl.class);
+                                            intent.putExtra("user_profile", (Serializable) userProfile);
+                                            startActivity(intent);
+                                        }
+                                        else {
+                                            Intent intent = new Intent(LoginActivity.this, StartActivity.class);
+                                            intent.putExtra("user_profile", (Serializable) userProfile);
+                                            startActivity(intent);
+                                        }
                                     } else {
                                         // Handle the case where user details are not found
                                         Toast.makeText(LoginActivity.this, "User profile not found", Toast.LENGTH_SHORT).show();

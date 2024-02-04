@@ -15,6 +15,15 @@
         android:theme="@style/Theme.ClubNetwork"
         tools:targetApi="31">
         <activity
+            android:name=".EditAchievements"
+            android:exported="false" />
+        <activity
+            android:name=".UploadPosts"
+            android:exported="false" />
+        <activity
+            android:name=".AdminControl"
+            android:exported="false" />
+        <activity
             android:name=".ai"
             android:exported="false" />
         <activity

@@ -20,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity {
     Button loginButton;
     Button SignupButton;
-
+    Button AdminLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,11 +30,21 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference databaseReference;
         loginButton = findViewById(R.id.start_login_button);
         SignupButton = findViewById(R.id.start_signup_button);
+        AdminLogin = findViewById(R.id.login_as_admin_button);
 
 
 
 
         loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        AdminLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

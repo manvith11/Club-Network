@@ -19,4 +19,5 @@
     <color name="search">#FFF5E8</color>
     <color name="notify">#1B5A85</color>
     <color name="profile">#030E0E</color>
+    <color name="loginasadmin">#338E80</color>
 </resources>

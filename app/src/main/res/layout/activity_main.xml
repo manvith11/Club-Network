@@ -36,7 +36,17 @@
             android:backgroundTint="@color/blue"
             android:text="Sign Up"
             android:textSize="18sp"
-            app:cornerRadius="20dp" />
+            app:cornerRadius="20dp"
+            />
+        <Button
+            android:id="@+id/login_as_admin_button"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:backgroundTint="@color/loginasadmin"
+            android:text="Login as Admin"
+            android:textSize="18sp"
+            app:cornerRadius="20dp"
+            android:layout_marginTop="16dp"/>
 
     </LinearLayout>
 
