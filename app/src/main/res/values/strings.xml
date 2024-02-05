@@ -7,5 +7,13 @@
     <string name="close_button_description">Close</string>
     <string name="join_button">Join</string>
     <string name="leave_button">Leave</string>
-    <string name="event_details" />
+    <string name="cmc_details">
+        "Welcome to the dynamic hub of innovation and creativity – our Computer and Multimedia Club! 🚀 Immerse yourself in a community passionate about technology, programming, and multimedia arts. Whether you're a coding wizard, a design enthusiast, or just curious about the latest tech trends, our club is the perfect space to explore, learn, and collaborate. Join us on a journey where ideas come to life, friendships are forged, and skills are honed. Unleash your potential and be a part of the future at the Computer and Multimedia Club – where passion meets proficiency!"
+    </string>
+    <string name="literary_details">
+        "Step into the world of words and imagination with our Literary Club! 📚✨ Embrace the magic of storytelling, poetry, and literary exploration. Whether you're an avid reader, a budding writer, or simply love the allure of words, our club is the haven for literary enthusiasts. Engage in thought-provoking discussions, unleash your creativity through writing challenges, and embark on literary adventures with like-minded individuals. Join us in celebrating the power of words and stories at the Literary Club – where every page turns into a new adventure!"
+    </string>
+    <string name="ai_details">
+        "Dive into the realm of cutting-edge technology and intelligence at our Artificial Intelligence Club! 🤖✨ Explore the limitless possibilities of AI, from machine learning to neural networks. Whether you're a seasoned AI practitioner or just curious about the future of technology, our club is the epicenter of innovation. Engage in fascinating discussions, hands-on projects, and collaborate with fellow enthusiasts to unravel the mysteries of artificial intelligence. Join us in shaping the future and unleashing the potential of AI at the Artificial Intelligence Club – where intelligence meets ingenuity!"
+    </string>
 </resources>

@@ -3,11 +3,17 @@ package com.example.clubnetwork;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
@@ -26,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FirebaseApp.initializeApp(this);
+        if (!isNetworkAvailable()) {
+            showNoInternetConnectionDialog();
+        }
+
 
         DatabaseReference databaseReference;
         loginButton = findViewById(R.id.start_login_button);
@@ -62,4 +72,33 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
     }
+
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
+        return false;
+    }
+    private void showNoInternetConnectionDialog() {
+        // Create a custom view for the dialog
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.broadcast, null);
+
+        // Set the message text
+        TextView textViewMessage = dialogView.findViewById(R.id.textViewMessage);
+        if (textViewMessage != null) {
+            textViewMessage.setText("No Internet Connection");
+        }
+
+        // Create AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 }

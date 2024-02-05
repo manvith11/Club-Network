@@ -33,6 +33,8 @@ public class AccountSettings extends AppCompatActivity {
     private Spinner spinnerYear;
     private ImageView checkMarkImageView;
 
+    private  ImageView closeImage;
+
 
     Intent intent = getIntent();
     @Override
@@ -44,6 +46,7 @@ public class AccountSettings extends AppCompatActivity {
         spinnerClass = findViewById(R.id.spinnerClass);
         spinnerYear = findViewById(R.id.spinnerYear);
         checkMarkImageView = findViewById(R.id.checkMark);
+        closeImage = findViewById(R.id.closeButton);
 
         intent = getIntent();
         if (intent.hasExtra("user_profile")) {
@@ -81,7 +84,17 @@ public class AccountSettings extends AppCompatActivity {
                 updateDataInFirebase(updatedUserProfile);
             }
         });
+        closeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserProfile userProfile = getUserProfileFromIntent();
+               navigateToProfileFragment(userProfile);
+
+            }
+        });
     }
+
+
 
     private void updateDataInFirebase(UserProfile updatedUserProfile) {
         // Check if any required fields are empty or null
@@ -124,7 +137,7 @@ public class AccountSettings extends AppCompatActivity {
         }
     }
     private void navigateToProfileFragment(UserProfile updatedUserProfile) {
-        Intent intent = new Intent(this, StartActivity.class);
+        Intent intent = new Intent(this, ProfileFragment.class);
 
         // Pass the updated UserProfile to the ProfileActivity
         intent.putExtra("user_profile", updatedUserProfile);

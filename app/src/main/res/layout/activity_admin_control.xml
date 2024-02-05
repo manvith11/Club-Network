@@ -13,13 +13,12 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintWidth_percent="0.8"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/cardViewEditAchievements"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
         app:cardElevation="4dp"
         app:cardCornerRadius="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="166dp"
         android:layout_marginBottom="8dp">
 
         <TextView
@@ -30,35 +29,13 @@
             android:textSize="18sp" />
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardViewEditAchievements"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintWidth_percent="0.8"
-        app:layout_constraintTop_toBottomOf="@+id/cardViewUploadPosts"
-        app:layout_constraintBottom_toTopOf="@+id/btnNavigateStart"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:cardElevation="4dp"
-        app:cardCornerRadius="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Edit Achievements"
-            android:gravity="center"
-            android:textSize="18sp" />
-    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/btnNavigateStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back to Start"
-        app:layout_constraintTop_toBottomOf="@+id/cardViewEditAchievements"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

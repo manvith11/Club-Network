@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                                             startActivity(intent);
                                         }
                                         else {
-                                            Intent intent = new Intent(LoginActivity.this, StartActivity.class);
+                                            Intent intent = new Intent(LoginActivity.this, OTPActivity.class);
                                             intent.putExtra("user_profile", (Serializable) userProfile);
                                             startActivity(intent);
                                         }

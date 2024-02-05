@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:layout_marginBottom="300dp"
-            android:background="@drawable/logo"/>
+            android:background="@drawable/mainlogo"/>
 
         <Button
             android:id="@+id/start_login_button"

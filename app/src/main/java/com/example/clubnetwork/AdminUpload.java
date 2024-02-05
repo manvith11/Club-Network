@@ -7,12 +7,15 @@ import android.os.Handler;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,11 +50,25 @@ public class AdminUpload extends AppCompatActivity {
 
     private StorageTask mUploadTask;
 
+    Intent intent = getIntent();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_upload);
+        Spinner spinnerClubName = findViewById(R.id.spinner_club_name);
 
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item,
+                new String[]{"Computer and Multimedia Club", "Literary Club", "AI Club"});
+
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner
+        spinnerClubName.setAdapter(adapter);
         mButtonChooseImage = findViewById(R.id.button_choose_image);
         mButtonUpload = findViewById(R.id.button_upload);
         mTextViewShowUploads = findViewById(R.id.text_view_show_uploads);
@@ -62,6 +79,7 @@ public class AdminUpload extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
+
         mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,13 +87,17 @@ public class AdminUpload extends AppCompatActivity {
             }
         });
 
+
         mButtonUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String selectedClubName = spinnerClubName.getSelectedItem().toString();
+                selectedClubName = selectedClubName.replace(" ", "_");
+                String SelectedClubName = selectedClubName;
                 if (mUploadTask != null && mUploadTask.isInProgress()) {
                     Toast.makeText(AdminUpload.this, "Upload in progress", Toast.LENGTH_SHORT).show();
                 } else {
-                    uploadFile();
+                    uploadFile(SelectedClubName);
                 }
             }
         });
@@ -83,7 +105,7 @@ public class AdminUpload extends AppCompatActivity {
         mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                openImagesActivity();
             }
         });
     }
@@ -103,8 +125,7 @@ public class AdminUpload extends AppCompatActivity {
                 && data != null && data.getData() != null) {
             mImageUri = data.getData();
 
-           mImageView.setImageURI(mImageUri);
-        }
+            Picasso.get().load(mImageUri).into(mImageView);        }
     }
 
     private String getFileExtension(Uri uri) {
@@ -113,9 +134,10 @@ public class AdminUpload extends AppCompatActivity {
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    private void uploadFile() {
+    private void uploadFile(String clubname) {
         if (mImageUri != null) {
-            final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
+
+            final StorageReference fileReference = mStorageRef.child("" + clubname + "/" + System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
 
             mUploadTask = fileReference.putFile(mImageUri)
@@ -137,8 +159,9 @@ public class AdminUpload extends AppCompatActivity {
                                     Toast.makeText(AdminUpload.this, "Upload successful", Toast.LENGTH_LONG).show();
                                     Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
                                             uri.toString());
-                                    String uploadId = mDatabaseRef.push().getKey();
-                                    mDatabaseRef.child(uploadId).setValue(upload);
+                                    String uploadId = mDatabaseRef.child(""+clubname).push().getKey();
+                                    mDatabaseRef.child("" + clubname + "/" + uploadId).setValue(upload);
+
                                 }
                             });
                         }
@@ -158,6 +181,23 @@ public class AdminUpload extends AppCompatActivity {
                     });
         } else {
             Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
+        }
+    }
+    private void openImagesActivity(){
+        UserProfile userProfile = getUserProfileFromIntent();
+        Intent intent = new Intent(this, StartActivity.class);
+        intent.putExtra("user_profile", userProfile);
+        startActivity(intent);
+    }
+    private UserProfile getUserProfileFromIntent() {
+        // Get UserProfile from intent
+        Intent intent = getIntent();
+
+        if (intent.hasExtra("user_profile")) {
+            return (UserProfile) intent.getSerializableExtra("user_profile");
+        } else {
+            // Handle the case where the UserProfile is not present in the intent
+            return new UserProfile();  // Or return null, depending on your design
         }
     }
 }

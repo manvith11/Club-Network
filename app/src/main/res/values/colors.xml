@@ -20,4 +20,5 @@
     <color name="notify">#1B5A85</color>
     <color name="profile">#030E0E</color>
     <color name="loginasadmin">#338E80</color>
+    <color name="launch_background">#001826</color>
 </resources>

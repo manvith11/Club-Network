@@ -42,6 +42,8 @@ public class StartActivity extends AppCompatActivity{
                 switch (item.getItemId()){
                     case R.id.nav_home:
                         fragment = new HomeFragment();
+                        bundle.putSerializable("user_profile", (Serializable) userProfile);
+                        fragment.setArguments(bundle);
                         break;
                     case R.id.nav_search:
                         fragment = new SearchFragment();
